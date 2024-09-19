@@ -2,7 +2,7 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import lognorm
+from scipy.stats import lognorm, norm
 
 # Set the title of the Streamlit app
 st.title("Lognormal Distribution Visualization with Log Transformation")
@@ -24,7 +24,11 @@ scale = np.exp(mean)
 x = np.linspace(0.01, 5, 1000)
 pdf = lognorm.pdf(x, s=sigma, scale=scale)
 
-# Plotting the lognormal distribution
+# Sample data points from the lognormal distribution
+sample_data = lognorm.rvs(s=sigma, scale=scale, size=1000)
+log_transformed_data = np.log(sample_data)  # Log-transform the sampled data
+
+# Plotting the original Lognormal distribution and its log-transformed version
 fig, ax = plt.subplots(1, 2, figsize=(16, 5))
 
 # Plotting the original Lognormal distribution
@@ -35,30 +39,14 @@ ax[0].set_xlabel('x')
 ax[0].set_ylabel('Probability Density')
 ax[0].legend()
 
-# Log Transformation of Data Points
-st.write("## Log Transformation")
-st.write("Below is the log-transformed data of some sample points from the lognormal distribution.")
-
-# Select sample points from the lognormal distribution for demonstration
-sample_points = np.linspace(0.01, 5, 100)
-log_transformed = np.log(sample_points)  # Apply natural log transformation
-
-# Plotting the log-transformed data
-ax[1].plot(log_transformed, sample_points, label='Log-Transformed Data', color='red')
-ax[1].scatter(log_transformed, sample_points, color='red', alpha=0.5)
-ax[1].set_title('Log-Transformed Data')
+# Plotting the log-transformed data (should resemble a normal distribution)
+sns.histplot(log_transformed_data, kde=True, stat="density", bins=30, color='red', ax=ax[1])
+ax[1].set_title('Log-Transformed Data (Normal Distribution)')
 ax[1].set_xlabel('Log(x)')
-ax[1].set_ylabel('Original x')
-ax[1].legend()
+ax[1].set_ylabel('Density')
 
 # Display both plots side by side
 st.pyplot(fig)
-
-# Display the sample points and their log-transformed values
-log_conversion = np.column_stack((sample_points, log_transformed))
-st.write("### Sample Data and Log-Transformed Values")
-st.write(f"Mean (µ) = {mean}, Standard Deviation (σ) = {sigma}")
-st.write(log_conversion)
 
 # Additional information about the distribution
 st.write("""
