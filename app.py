@@ -3,7 +3,7 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import lognorm, norm
-
+import seaborn as sns
 # Set the title of the Streamlit app
 st.title("Lognormal Distribution Visualization with Log Transformation")
 
