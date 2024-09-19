@@ -9,7 +9,7 @@ st.title("Lognormal Distribution Visualization with Log Transformation")
 
 # Description of the app
 st.write("""
-This app visualizes the Lognormal Distribution and shows the log-transformation of data points.
+This app visualizes the Lognormal Distribution and its log transformation.
 Adjust the parameters below to see how they affect the shape of the distribution.
 """)
 
@@ -25,24 +25,34 @@ x = np.linspace(0.01, 5, 1000)
 pdf = lognorm.pdf(x, s=sigma, scale=scale)
 
 # Plotting the lognormal distribution
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(x, pdf, label=f'Lognormal PDF (µ={mean}, σ={sigma})', color='blue')
-ax.fill_between(x, pdf, alpha=0.2, color='blue')
-ax.set_title('Lognormal Distribution')
-ax.set_xlabel('x')
-ax.set_ylabel('Probability Density')
-ax.legend()
+fig, ax = plt.subplots(1, 2, figsize=(16, 5))
 
-# Display the plot in the Streamlit app
-st.pyplot(fig)
+# Plotting the original Lognormal distribution
+ax[0].plot(x, pdf, label=f'Lognormal PDF (µ={mean}, σ={sigma})', color='blue')
+ax[0].fill_between(x, pdf, alpha=0.2, color='blue')
+ax[0].set_title('Lognormal Distribution')
+ax[0].set_xlabel('x')
+ax[0].set_ylabel('Probability Density')
+ax[0].legend()
 
 # Log Transformation of Data Points
 st.write("## Log Transformation")
 st.write("Below is the log-transformed data of some sample points from the lognormal distribution.")
 
 # Select sample points from the lognormal distribution for demonstration
-sample_points = np.linspace(0.01, 5, 10)
+sample_points = np.linspace(0.01, 5, 100)
 log_transformed = np.log(sample_points)  # Apply natural log transformation
+
+# Plotting the log-transformed data
+ax[1].plot(log_transformed, sample_points, label='Log-Transformed Data', color='red')
+ax[1].scatter(log_transformed, sample_points, color='red', alpha=0.5)
+ax[1].set_title('Log-Transformed Data')
+ax[1].set_xlabel('Log(x)')
+ax[1].set_ylabel('Original x')
+ax[1].legend()
+
+# Display both plots side by side
+st.pyplot(fig)
 
 # Display the sample points and their log-transformed values
 log_conversion = np.column_stack((sample_points, log_transformed))
