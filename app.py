@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 from scipy.stats import lognorm
 
 # Set the title of the Streamlit app
-st.title("Lognormal Distribution Visualization")
+st.title("Lognormal Distribution Visualization with Log Transformation")
 
 # Description of the app
 st.write("""
-This app visualizes the Lognormal Distribution. 
+This app visualizes the Lognormal Distribution and shows the log-transformation of data points.
 Adjust the parameters below to see how they affect the shape of the distribution.
 """)
 
@@ -36,9 +36,25 @@ ax.legend()
 # Display the plot in the Streamlit app
 st.pyplot(fig)
 
+# Log Transformation of Data Points
+st.write("## Log Transformation")
+st.write("Below is the log-transformed data of some sample points from the lognormal distribution.")
+
+# Select sample points from the lognormal distribution for demonstration
+sample_points = np.linspace(0.01, 5, 10)
+log_transformed = np.log(sample_points)  # Apply natural log transformation
+
+# Display the sample points and their log-transformed values
+log_conversion = np.column_stack((sample_points, log_transformed))
+st.write("### Sample Data and Log-Transformed Values")
+st.write(f"Mean (µ) = {mean}, Standard Deviation (σ) = {sigma}")
+st.write(log_conversion)
+
 # Additional information about the distribution
 st.write("""
-### Understanding the Parameters:
+### Understanding the Parameters and Log Transformation:
 - **Mean (µ)**: The mean of the underlying normal distribution. Affects the location of the lognormal distribution.
 - **Standard Deviation (σ)**: The spread of the underlying normal distribution. Higher values lead to a wider distribution.
+- **Log Transformation**: The natural log transformation converts lognormally distributed data back to a normal distribution scale.
 """)
+
